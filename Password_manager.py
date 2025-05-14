@@ -6,48 +6,47 @@ s2 = list(string.digits)
 s3 = list(string.ascii_uppercase)
 s4 = list(string.ascii_lowercase)
 
-full_amount = int(input("How many password do we generate: "))
-amount = 0
-results = []
-length = int(input("How many characters do you want for your password?: "))
+full_amount = int(input("How many passwords do we generate: "))
+length = int(input("How many characters do you want for your password: "))
 
 while True:
-
     try:
-        
         character_number = int(length)
-        
-        if length < 8:
+        if character_number < 8:
             print("Minimum amount of characters is 8")
-
+            length = input("How many characters do you want for your password: ")
         else:
             break
-
     except:
-        print("please numbers only")
-        continue
+        print("Please numbers only")
+        length = input("How many characters do you want for your password: ")
 
-random.shuffle(s1)
-random.shuffle(s2)
-random.shuffle(s3)
-random.shuffle(s4)
+part1 = round(character_number * 0.3)
+part2 = round(character_number * 0.2)
 
-part1 = round(character_number * (30/100))
-part2 = round(character_number * (20/100))
+passwords = []
 
-while amount < full_amount:
+for _ in range(full_amount):
+    temp = []
+
+    random.shuffle(s1)
+    random.shuffle(s2)
+    random.shuffle(s3)
+    random.shuffle(s4)
+
     for x in range(part1):
-        
-        results.append(s1[x])
-        results.append(s2[x])
-    
+        temp.append(s1[x])
+        temp.append(s2[x])
+
     for x in range(part2):
+        temp.append(s3[x])
+        temp.append(s4[x])
 
-        results.append(s3[x])
-        results.append(s4[x])
+    while len(temp) < character_number:
+        temp.append(random.choice(s1 + s2 + s3 + s4))
 
-    random.shuffle(results)
+    random.shuffle(temp)
+    password = ''.join(temp[:character_number])
+    passwords.append(password)
 
-    amount += 1
-
-print("passwords: ", results)
+print("Passwords:", ', '.join(passwords))
